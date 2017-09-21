@@ -1,8 +1,9 @@
 import { Component } from 'react'
-import { observable, unobserve, observe } from '@nx-js/observer-util'
+import { observable, unobserve, observe, queue, setPriority } from '@nx-js/observer-util'
 import autoBind from './autoBind'
 
 const REACTIVE_RENDER = Symbol('reactive render')
+const PRIORITY = Symbol('reactive render priority')
 
 export default function easyComp (Comp) {
   if (typeof Comp !== 'function') {
@@ -61,6 +62,10 @@ function toReactiveComp (Comp) {
     constructor (props) {
       super(props)
 
+      // save the starting priority internally
+      // priority is replaced with a getter/setter pair after this
+      this[PRIORITY] = this.priority
+
       // auto bind non react specific original methods to the component instance
       autoBind(this, Comp.prototype, true)
 
@@ -72,10 +77,21 @@ function toReactiveComp (Comp) {
       }
     }
 
+    get priority () {
+      return this[PRIORITY]
+    }
+
+    set priority (priority) {
+      this[PRIORITY] = priority
+      if (this[REACTIVE_RENDER]) {
+        setPriority(this[REACTIVE_RENDER], priority)
+      }
+    }
+
     render () {
       // if it is the first direct render from react call there is no reactive render yet
       if (!this[REACTIVE_RENDER]) {
-        let result
+        let result = null
         // create a reactive render, which is automatically called by easyState on relevant store mutations
         // the passed function is executed right away synchronously once by easyState
         this[REACTIVE_RENDER] = observe(() => {
@@ -89,7 +105,7 @@ function toReactiveComp (Comp) {
             // which is not possible from this asynchronous context
             super.forceUpdate()
           }
-        })
+        }, this.priority)
         // return the result from super.render() inside the reactive render on the first render execution
         return result
       } else {
@@ -98,24 +114,26 @@ function toReactiveComp (Comp) {
       }
     }
 
-    // react should trigger updates on prop changes, while easyState handles store changes
-    shouldComponentUpdate (nextProps) {
+    componentWillReceiveProps (nextProps) {
       const { props } = this
       const keys = Object.keys(props)
       const nextKeys = Object.keys(nextProps)
 
       // component should update if the number of its props changed
       if (keys.length !== nextKeys.length) {
-        return true
+        return queue(this[REACTIVE_RENDER])
       }
 
       // component should update if any of its props changed value
       for (let key of keys) {
         if (props[key] !== nextProps[key]) {
-          return true
+          return queue(this[REACTIVE_RENDER])
         }
       }
+    }
 
+    // react should trigger updates on prop changes, while easyState handles store changes
+    shouldComponentUpdate (nextProps) {
       // do not let react update the comp otherwise, leave store triggered updates to easyState
       return false
     }

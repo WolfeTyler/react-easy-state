@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 159);
+/******/ 	return __webpack_require__(__webpack_require__.s = 163);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -1066,24 +1066,6 @@ module.exports = containsNode;
 
 /***/ }),
 
-/***/ 159:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__App__ = __webpack_require__(160);
-
-
-
-
-__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__App__["a" /* default */], null), document.getElementById('react-root'));
-
-/***/ }),
-
 /***/ 16:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1117,255 +1099,216 @@ module.exports = focusNode;
 
 /***/ }),
 
-/***/ 160:
+/***/ 163:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__App__ = __webpack_require__(164);
+
+
+
+
+const start = Date.now();
+
+function update() {
+  __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__App__["a" /* default */], { elapsed: Date.now() - start }), document.getElementById('react-root'));
+  requestAnimationFrame(update);
+}
+
+requestAnimationFrame(update);
+
+/***/ }),
+
+/***/ 164:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_easy_state__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Contact__ = __webpack_require__(161);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ContactCreator__ = __webpack_require__(162);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__store__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Triangle__ = __webpack_require__(165);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 
 
 
 
+class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+  constructor(...args) {
+    var _temp;
 
-// this rerenders whenever the store.contacts array changes (elements pushed or deleted)
-function App() {
-  return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-    'table',
-    null,
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'thead',
-      null,
+    return _temp = super(...args), this.store = { seconds: 0 }, _temp;
+  }
+
+  componentDidMount() {
+    this.invervalID = setInterval(this.tick, 1000);
+  }
+
+  tick() {
+    this.store.seconds = this.store.seconds % 10 + 1;
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalID);
+  }
+
+  render() {
+    const { seconds } = this.store;
+    const { elapsed } = this.props;
+
+    const t = elapsed / 1000 % 10;
+    const scale = 1 + (t > 5 ? 10 - t : t) / 10;
+    const transform = `scaleX(${scale / 2.1}) scaleY(0.7) translateZ(0.1px)`;
+
+    const containerStyle = {
+      position: `absolute`,
+      transformOrigin: `0 0`,
+      left: `50%`,
+      top: `50%`,
+      width: `10px`,
+      height: `10px`,
+      background: `#eee`
+    };
+
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { style: _extends({}, containerStyle, { transform }) },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'tr',
-        null,
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'th',
-          null,
-          'Name'
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'th',
-          null,
-          'Email'
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'th',
-          null,
-          'Action'
-        )
+        __WEBPACK_IMPORTED_MODULE_2__Triangle__["a" /* default */],
+        { x: 0, y: 0, s: 1000 },
+        seconds
       )
-    ),
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'tbody',
-      null,
-      __WEBPACK_IMPORTED_MODULE_4__store__["a" /* default */].contacts.map(contact => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Contact__["a" /* default */], { contact: contact, key: contact.email })),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__ContactCreator__["a" /* default */], null)
-    )
-  );
+    );
+  }
 }
 
-// wrap the component with easyComp before exporting it
 /* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_1_react_easy_state__["a" /* easyComp */])(App));
 
 /***/ }),
 
-/***/ 161:
+/***/ 165:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_easy_state__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Dot__ = __webpack_require__(166);
 
 
 
 
-class Contact extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
-  constructor({ contact }) {
-    super();
-
-    // save internal utility data in component store instead of the global store
-    // editing is boolean meta flag, which indicates if the contact is currently edited
-    // currentContact is a temporary state of the contact during editing, which can be saved or cancelled
-    this.store = {
-      currentContact: Object.assign({}, contact),
-      editing: false
-    };
-  }
-
-  onEdit() {
-    this.store.editing = true;
-  }
-
-  onDelete() {
-    __WEBPACK_IMPORTED_MODULE_2__store__["a" /* default */].deleteContact(this.props.contact);
-  }
-
-  // transfer finalized changes from the component store to the main store
-  onSave() {
-    Object.assign(this.props.contact, this.store.currentContact);
-    this.store.editing = false;
-  }
-
-  // cancel changes by reverting to data from the main store
-  onCancel() {
-    Object.assign(this.store.currentContact, this.props.contact);
-    this.store.editing = false;
-  }
-
-  onChange(ev) {
-    this.store.currentContact[ev.target.name] = ev.target.value;
-  }
-
-  // render is triggered whenever the relevant parts of the component store, props or global store change
+class Triangle extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   render() {
-    const { onChange, onSave, onCancel, onEdit, onDelete } = this;
-    const { currentContact, editing } = this.store;
-    const { contact } = this.props;
+    let { x, y, s, children } = this.props;
+    const targetSize = 25;
 
-    if (!editing) {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'tr',
-        { className: 'contact-display' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'td',
-          null,
-          contact.name
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'td',
-          null,
-          contact.email
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'td',
-          null,
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'button',
-            { onClick: onEdit },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'zmdi zmdi-edit' })
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'button',
-            { onClick: onDelete },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'zmdi zmdi-delete' })
-          )
-        )
-      );
+    if (s <= targetSize) {
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Dot__["a" /* default */], {
+        x: x - targetSize / 2,
+        y: y - targetSize / 2,
+        size: targetSize,
+        text: children
+      });
     }
 
+    s /= 2;
+
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'tr',
-      { className: 'contact-editor' },
+      'div',
+      null,
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'td',
-        null,
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { name: 'name', value: currentContact.name, onChange: onChange, autoFocus: true })
+        Triangle,
+        { x: x, y: y - s / 2, s: s },
+        children
       ),
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'td',
-        null,
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { name: 'email', value: currentContact.email, onChange: onChange })
+        Triangle,
+        { x: x - s, y: y + s / 2, s: s },
+        children
       ),
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'td',
-        null,
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'button',
-          { onClick: onSave },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'zmdi zmdi-save' })
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'button',
-          { onClick: onCancel },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'zmdi zmdi-close' })
-        )
+        Triangle,
+        { x: x + s, y: y + s / 2, s: s },
+        children
       )
     );
   }
 }
 
-// wrap the component with easyComp before exporting it
-/* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_1_react_easy_state__["a" /* easyComp */])(Contact));
+/* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_1_react_easy_state__["a" /* easyComp */])(Triangle));
 
 /***/ }),
 
-/***/ 162:
+/***/ 166:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_easy_state__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store__ = __webpack_require__(37);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 
 
 
-class ContactCreator extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+class Dot extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   constructor(...args) {
     var _temp;
 
-    return _temp = super(...args), this.store = {
-      newContact: { name: '', email: '' }
-
-      // transfer finalized contact from the component store to the main store
-    }, _temp;
-  }
-  // save internal utility data in component store, instead of the global store
-  // newContact is the skeleton for the next contact before it is added to the list
-
-
-  addContact() {
-    __WEBPACK_IMPORTED_MODULE_2__store__["a" /* default */].addContact(this.store.newContact);
-    this.store.newContact = { name: '', email: '' };
+    return _temp = super(...args), this.priority = __WEBPACK_IMPORTED_MODULE_1_react_easy_state__["c" /* priorities */].HIGH, this.store = { hover: false }, _temp;
   }
 
-  onChange(ev) {
-    const { newContact } = this.store;
-    newContact[ev.target.name] = ev.target.value;
+  handleMouseEnter() {
+    this.store.hover = true;
   }
 
-  // render is triggered whenever the relevant parts of the component store or global store change
+  handleMouseLeave() {
+    this.store.hover = false;
+  }
+
   render() {
-    const { addContact, onChange } = this;
-    const { newContact } = this.store;
+    const { x, y, size, text } = this.props;
+    const { hover } = this.store;
+
+    const s = size * 1.3;
+
+    const base = {
+      position: `absolute`,
+      background: `#61dafb`,
+      font: `normal 15px sans-serif`,
+      textAlign: `center`,
+      cursor: `pointer`
+    };
+
+    const style = _extends({}, base, {
+      width: `${s}px`,
+      height: `${s}px`,
+      left: `${x}px`,
+      top: `${y}px`,
+      borderRadius: `${s / 2}px`,
+      lineHeight: `${s}px`,
+      background: hover ? `#ff0` : base.background
+    });
 
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'tr',
-      { className: 'contact-creator' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'td',
-        null,
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { name: 'name', value: newContact.name, onChange: onChange, placeholder: 'Contact name...' })
-      ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'td',
-        null,
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { name: 'email', value: newContact.email, onChange: onChange, placeholder: 'Contact email...' })
-      ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'td',
-        null,
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'button',
-          { onClick: addContact },
-          'Add Contact'
-        )
-      )
+      'div',
+      {
+        style: style,
+        onMouseEnter: this.handleMouseEnter,
+        onMouseLeave: this.handleMouseLeave
+      },
+      hover ? `*${text}*` : text
     );
   }
 }
 
-// wrap the component with easyComp before exporting it
-/* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_1_react_easy_state__["a" /* easyComp */])(ContactCreator));
+/* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_1_react_easy_state__["a" /* easyComp */])(Dot));
 
 /***/ }),
 
@@ -10234,29 +10177,6 @@ function easyStore(store) {
   Object(__WEBPACK_IMPORTED_MODULE_1__autoBind__["a" /* default */])(observableStore, store, false);
   return observableStore;
 }
-
-/***/ }),
-
-/***/ 37:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_easy_state__ = __webpack_require__(12);
-
-
-// store the central data and logic of the application in a global store
-/* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_0_react_easy_state__["b" /* easyStore */])({
-  contacts: [],
-  addContact(contact) {
-    contact.name = contact.name || 'Placeholder';
-    contact.email = contact.email || 'Placeholder';
-    this.contacts.push(contact);
-  },
-  deleteContact(contact) {
-    const idx = this.contacts.indexOf(contact);
-    this.contacts.splice(idx, 1);
-  }
-}));
 
 /***/ }),
 
