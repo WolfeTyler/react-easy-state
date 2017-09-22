@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { easyComp } from 'react-easy-state'
+import { easyComp, priorities } from 'react-easy-state'
 import Dot from './Dot'
 
 class Triangle extends Component {
+  priority = priorities.LOW
+
   render () {
     let { x, y, s, children } = this.props
     const targetSize = 25

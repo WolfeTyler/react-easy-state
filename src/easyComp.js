@@ -1,5 +1,11 @@
 import { Component } from 'react'
-import { observable, unobserve, observe, queue, setPriority } from '@nx-js/observer-util'
+import {
+  observable,
+  unobserve,
+  observe,
+  queue,
+  setPriority
+} from '@nx-js/observer-util'
 import autoBind from './autoBind'
 
 const REACTIVE_RENDER = Symbol('reactive render')

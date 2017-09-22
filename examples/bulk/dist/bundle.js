@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 324);
+/******/ 	return __webpack_require__(__webpack_require__.s = 308);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -23176,7 +23176,68 @@ function easyStore(store) {
 
 /***/ }),
 /* 189 */,
-/* 190 */,
+/* 190 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_easy_state__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__randomSentence__ = __webpack_require__(315);
+
+
+
+let idCounter = 1;
+
+/* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_0_react_easy_state__["b" /* easyStore */])({
+  rows: [],
+  deselectAll() {
+    if (this.selectedRow) {
+      this.selectedRow.selected = false;
+      this.selectedRow = undefined;
+    }
+  },
+  buildRows(numOfRows) {
+    for (let i = 0; i < numOfRows; i++) {
+      this.rows.push({ id: idCounter++, label: Object(__WEBPACK_IMPORTED_MODULE_1__randomSentence__["a" /* default */])() });
+    }
+    this.deselectAll();
+  },
+  run() {
+    this.rows = [];
+    this.buildRows(1000);
+  },
+  add() {
+    this.buildRows(1000);
+  },
+  update() {
+    for (let i = 0; i < this.rows.length; i += 10) {
+      this.rows[i].label += ' !!!';
+    }
+  },
+  select(row) {
+    this.deselectAll();
+    this.selectedRow = row;
+    row.selected = true;
+  },
+  delete(row) {
+    this.rows.splice(this.rows.indexOf(row), 1);
+  },
+  runLots() {
+    this.rows = [];
+    this.buildRows(10000);
+  },
+  clear() {
+    this.rows = [];
+  },
+  swapRows() {
+    if (this.rows.length > 10) {
+      const temp = this.rows[4];
+      this.rows[4] = this.rows[9];
+      this.rows[9] = temp;
+    }
+  }
+}));
+
+/***/ }),
 /* 191 */,
 /* 192 */,
 /* 193 */,
@@ -23294,23 +23355,7 @@ function easyStore(store) {
 /* 305 */,
 /* 306 */,
 /* 307 */,
-/* 308 */,
-/* 309 */,
-/* 310 */,
-/* 311 */,
-/* 312 */,
-/* 313 */,
-/* 314 */,
-/* 315 */,
-/* 316 */,
-/* 317 */,
-/* 318 */,
-/* 319 */,
-/* 320 */,
-/* 321 */,
-/* 322 */,
-/* 323 */,
-/* 324 */
+/* 308 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -23319,210 +23364,664 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(101);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__App__ = __webpack_require__(325);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__App__ = __webpack_require__(309);
 
 
 
 
-const start = Date.now();
-
-function update() {
-  __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__App__["a" /* default */], { elapsed: Date.now() - start }), document.getElementById('react-root'));
-  requestAnimationFrame(update);
-}
-
-requestAnimationFrame(update);
+__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__App__["a" /* default */], null), document.getElementById('react-root'));
 
 /***/ }),
-/* 325 */
+/* 309 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_easy_state__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Triangle__ = __webpack_require__(326);
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Row__ = __webpack_require__(310);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__store__ = __webpack_require__(190);
 
 
 
 
 
-class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
-  constructor(...args) {
-    var _temp;
+function App() {
+  const { rows, selected, run, runLots, add, update, clear, swapRows } = __WEBPACK_IMPORTED_MODULE_3__store__["a" /* default */];
 
-    return _temp = super(...args), this.store = { seconds: 0 }, _temp;
-  }
-
-  componentDidMount() {
-    this.invervalID = setInterval(this.tick, 1000);
-  }
-
-  tick() {
-    this.store.seconds = this.store.seconds % 10 + 1;
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.intervalID);
-  }
-
-  render() {
-    const { seconds } = this.store;
-    const { elapsed } = this.props;
-
-    const t = elapsed / 1000 % 10;
-    const scale = 1 + (t > 5 ? 10 - t : t) / 10;
-    const transform = `scaleX(${scale / 2.1}) scaleY(0.7) translateZ(0.1px)`;
-
-    const containerStyle = {
-      position: `absolute`,
-      transformOrigin: `0 0`,
-      left: `50%`,
-      top: `50%`,
-      width: `10px`,
-      height: `10px`,
-      background: `#eee`
-    };
-
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+  return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+    'div',
+    { className: 'container' },
+    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { style: _extends({}, containerStyle, { transform }) },
+      { className: 'jumbotron' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_2__Triangle__["a" /* default */],
-        { x: 0, y: 0, s: 1000 },
-        seconds
+        'div',
+        { className: 'row' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'col-md-6' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'h1',
+            null,
+            'React v15.5.4 + Easy State 3.0.1'
+          )
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'col-md-6' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'row' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-sm-6 smallpad' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'button',
+                { type: 'button', className: 'btn btn-primary btn-block', id: 'run', onClick: run },
+                'Create 1,000 rows'
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-sm-6 smallpad' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'button',
+                { type: 'button', className: 'btn btn-primary btn-block', id: 'runlots', onClick: runLots },
+                'Create 10,000 rows'
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-sm-6 smallpad' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'button',
+                { type: 'button', className: 'btn btn-primary btn-block', id: 'add', onClick: add },
+                'Append 1,000 rows'
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-sm-6 smallpad' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'button',
+                { type: 'button', className: 'btn btn-primary btn-block', id: 'update', onClick: update },
+                'Update every 10th row'
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-sm-6 smallpad' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'button',
+                { type: 'button', className: 'btn btn-primary btn-block', id: 'clear', onClick: clear },
+                'Clear'
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-sm-6 smallpad' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'button',
+                { type: 'button', className: 'btn btn-primary btn-block', id: 'swaprows', onClick: swapRows },
+                'Swap Rows'
+              )
+            )
+          )
+        )
       )
-    );
-  }
+    ),
+    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'table',
+      { className: 'table table-hover table-striped test-data' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'tbody',
+        null,
+        rows.map(row => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Row__["a" /* default */], { key: row.id, row: row }))
+      )
+    ),
+    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'preloadicon glyphicon glyphicon-remove', 'aria-hidden': 'true' })
+  );
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_1_react_easy_state__["a" /* easyComp */])(App));
 
 /***/ }),
-/* 326 */
+/* 310 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_easy_state__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Dot__ = __webpack_require__(327);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_intersection_observer__ = __webpack_require__(311);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_intersection_observer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react_intersection_observer__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__store__ = __webpack_require__(190);
 
 
 
 
-class Triangle extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
-  constructor(...args) {
-    var _temp;
 
-    return _temp = super(...args), this.priority = __WEBPACK_IMPORTED_MODULE_1_react_easy_state__["c" /* priorities */].LOW, _temp;
+class Row extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+	constructor(...args) {
+		var _temp;
+
+		return _temp = super(...args), this.priority = __WEBPACK_IMPORTED_MODULE_1_react_easy_state__["c" /* priorities */].HIGH, _temp;
+	}
+
+	onDelete() {
+		__WEBPACK_IMPORTED_MODULE_3__store__["a" /* default */].delete(this.props.row);
+	}
+
+	onClick() {
+		__WEBPACK_IMPORTED_MODULE_3__store__["a" /* default */].select(this.props.row);
+	}
+
+	onVisibilityChange(isVisible) {
+		if (isVisible) {
+			this.priority = __WEBPACK_IMPORTED_MODULE_1_react_easy_state__["c" /* priorities */].CRITICAL;
+		} else {
+			this.priority = __WEBPACK_IMPORTED_MODULE_1_react_easy_state__["c" /* priorities */].HIGH;
+		}
+	}
+
+	render() {
+		const { row } = this.props;
+		const styleClass = row.selected ? 'danger' : '';
+
+		return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+			__WEBPACK_IMPORTED_MODULE_2_react_intersection_observer___default.a,
+			{ onChange: this.onVisibilityChange, tag: 'tr', className: styleClass },
+			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+				'td',
+				{ className: 'col-md-1' },
+				row.id
+			),
+			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+				'td',
+				{ className: 'col-md-4' },
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'a',
+					{ onClick: this.onClick },
+					row.label
+				)
+			),
+			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+				'td',
+				{ className: 'col-md-1' },
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'a',
+					{ onClick: this.onDelete },
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'glyphicon glyphicon-remove', 'aria-hidden': 'true' })
+				)
+			),
+			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('td', { className: 'col-md-6' })
+		);
+	}
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_1_react_easy_state__["a" /* easyComp */])(Row));
+
+/***/ }),
+/* 311 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(25);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(312);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _intersection = __webpack_require__(314);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // eslint-disable-line no-unused-vars
+
+
+var isFunction = function isFunction(func) {
+  return typeof func === 'function';
+};
+
+/**
+ * Monitors scroll, and triggers the children function with updated props
+ *
+ <Observer>
+ {inView => (
+   <h1>{`${inView}`}</h1>
+ )}
+ </Observer>
+ */
+
+var Observer = function (_Component) {
+  _inherits(Observer, _Component);
+
+  function Observer() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, Observer);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Observer.__proto__ || Object.getPrototypeOf(Observer)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      inView: false
+    }, _this.node = null, _this.handleNode = function (node) {
+      if (_this.node) (0, _intersection.unobserve)(_this.node);
+      _this.node = node;
+      _this.observeNode();
+    }, _this.handleChange = function (inView) {
+      return _this.setState({ inView: inView });
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
-  render() {
-    let { x, y, s, children } = this.props;
-    const targetSize = 25;
+  _createClass(Observer, [{
+    key: 'componentWillUpdate',
+    value: function componentWillUpdate(nextProps, nextState) {
+      if (!!this.props.onChange && nextState !== this.state) {
+        this.props.onChange(nextState.inView);
+      }
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps, prevState) {
+      // If a IntersectionObserver option changed, reinit the observer
+      if (prevProps.rootMargin !== this.props.rootMargin || prevProps.root !== this.props.root || prevProps.threshold !== this.props.threshold) {
+        (0, _intersection.unobserve)(this.node);
+        this.observeNode();
+      }
 
-    if (s <= targetSize) {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Dot__["a" /* default */], {
-        x: x - targetSize / 2,
-        y: y - targetSize / 2,
-        size: targetSize,
-        text: children
+      if (prevState.inView !== this.state.inView) {
+        if (this.state.inView && this.props.triggerOnce) {
+          (0, _intersection.unobserve)(this.node);
+          this.node = null;
+        }
+      }
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      if (this.node) {
+        (0, _intersection.unobserve)(this.node);
+        this.node = null;
+      }
+    }
+  }, {
+    key: 'observeNode',
+    value: function observeNode() {
+      if (!this.node) return;
+      var _props = this.props,
+          threshold = _props.threshold,
+          root = _props.root,
+          rootMargin = _props.rootMargin,
+          rootId = _props.rootId;
+
+      (0, _intersection.observe)(this.node, this.handleChange, {
+        threshold: threshold,
+        root: root,
+        rootMargin: rootMargin
+      }, rootId);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props2 = this.props,
+          children = _props2.children,
+          render = _props2.render,
+          tag = _props2.tag,
+          triggerOnce = _props2.triggerOnce,
+          threshold = _props2.threshold,
+          root = _props2.root,
+          rootId = _props2.rootId,
+          rootMargin = _props2.rootMargin,
+          props = _objectWithoutProperties(_props2, ['children', 'render', 'tag', 'triggerOnce', 'threshold', 'root', 'rootId', 'rootMargin']);
+
+      var inView = this.state.inView;
+
+
+      return (0, _react.createElement)(tag, _extends({}, props, {
+        ref: this.handleNode
+      }),
+      // If render is a function, use it to render content when in view
+      inView && isFunction(render) ? render() : null,
+      // If children is a function, render it with the current inView status.
+      // Otherwise always render children. Assume onChange is being used outside, to control the the state of children.
+      isFunction(children) ? children(inView) : children);
+    }
+  }]);
+
+  return Observer;
+}(_react.Component);
+
+Observer.propTypes = {
+  /** Element tag to use for the wrapping */
+  tag: _propTypes2.default.node,
+  /** Children should be either a function or a node */
+  children: _propTypes2.default.oneOfType([_propTypes2.default.func, _propTypes2.default.node]),
+  /** Only trigger the inView callback once */
+  triggerOnce: _propTypes2.default.bool,
+  /** Number between 0 and 1 indicating the the percentage that should be visible before triggering. Can also be an array of numbers, to create multiple trigger points. */
+  threshold: _propTypes2.default.oneOfType([_propTypes2.default.arrayOf(_propTypes2.default.number), _propTypes2.default.number]),
+  /** The HTMLElement that is used as the viewport for checking visibility of the target. Defaults to the browser viewport if not specified or if null.*/
+  root: _propTypes2.default.object,
+  /** Margin around the root. Can have values similar to the CSS margin property, e.g. "10px 20px 30px 40px" (top, right, bottom, left). */
+  rootMargin: _propTypes2.default.string,
+  /** Unique identifier for the root element - This is used to identify the IntersectionObserver instance, so it can be reused.
+   * If you defined a root element, without adding an id, it will create a new instance for all components. */
+  rootId: _propTypes2.default.string,
+  /** Call this function whenever the in view state changes */
+  onChange: _propTypes2.default.func,
+  /** Use render method to only render content when inView */
+  render: _propTypes2.default.func
+};
+Observer.defaultProps = {
+  tag: 'div',
+  threshold: 0,
+  triggerOnce: false
+};
+exports.default = Observer;
+
+/***/ }),
+/* 312 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright 2013-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+if (process.env.NODE_ENV !== 'production') {
+  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
+    Symbol.for &&
+    Symbol.for('react.element')) ||
+    0xeac7;
+
+  var isValidElement = function(object) {
+    return typeof object === 'object' &&
+      object !== null &&
+      object.$$typeof === REACT_ELEMENT_TYPE;
+  };
+
+  // By explicitly using `prop-types` you are opting into new development behavior.
+  // http://fb.me/prop-types-in-prod
+  var throwOnDirectAccess = true;
+  module.exports = __webpack_require__(86)(isValidElement, throwOnDirectAccess);
+} else {
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // http://fb.me/prop-types-in-prod
+  module.exports = __webpack_require__(313)();
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 313 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright 2013-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+
+
+var emptyFunction = __webpack_require__(10);
+var invariant = __webpack_require__(1);
+var ReactPropTypesSecret = __webpack_require__(53);
+
+module.exports = function() {
+  function shim(props, propName, componentName, location, propFullName, secret) {
+    if (secret === ReactPropTypesSecret) {
+      // It is still safe when called from React.
+      return;
+    }
+    invariant(
+      false,
+      'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
+      'Use PropTypes.checkPropTypes() to call them. ' +
+      'Read more at http://fb.me/use-check-prop-types'
+    );
+  };
+  shim.isRequired = shim;
+  function getShim() {
+    return shim;
+  };
+  // Important!
+  // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
+  var ReactPropTypes = {
+    array: shim,
+    bool: shim,
+    func: shim,
+    number: shim,
+    object: shim,
+    string: shim,
+    symbol: shim,
+
+    any: shim,
+    arrayOf: getShim,
+    element: shim,
+    instanceOf: getShim,
+    node: shim,
+    objectOf: getShim,
+    oneOf: getShim,
+    oneOfType: getShim,
+    shape: getShim
+  };
+
+  ReactPropTypes.checkPropTypes = emptyFunction;
+  ReactPropTypes.PropTypes = ReactPropTypes;
+
+  return ReactPropTypes;
+};
+
+
+/***/ }),
+/* 314 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.observe = observe;
+exports.unobserve = unobserve;
+exports.destroy = destroy;
+var INSTANCE_MAP = new Map();
+var OBSERVER_MAP = new Map();
+
+/**
+ * Monitor element, and trigger callback when element becomes visible
+ * @param element {HTMLElement}
+ * @param callback {Function} Called with inView
+ * @param options {Object} InterSection observer options
+ * @param options.threshold {Number} Number between 0 and 1, indicating how much of the element should be visible before triggering
+ * @param options.root {HTMLElement} It should have a unique id or data-intersection-id in order for the Observer to reused.
+ * @param options.rootMargin {String} The CSS margin to apply to the root element.
+ * @param rootId {String} Unique identifier for the root element, to enable reusing the IntersectionObserver
+ */
+function observe(element, callback) {
+  var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {
+    threshold: 0
+  };
+  var rootId = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+  var threshold = options.threshold,
+      root = options.root,
+      rootMargin = options.rootMargin;
+
+  if (!element || !callback) return;
+  var observerId = rootMargin ? threshold + "_" + rootMargin : "" + threshold;
+
+  if (root) {
+    observerId = rootId ? rootId + "_" + observerId : null;
+  }
+
+  var observerInstance = observerId ? OBSERVER_MAP.get(observerId) : null;
+  if (!observerInstance) {
+    observerInstance = new IntersectionObserver(onChange, options);
+    if (observerId) OBSERVER_MAP.set(observerId, observerInstance);
+  }
+
+  var instance = {
+    callback: callback,
+    visible: false,
+    options: options,
+    observerId: observerId,
+    observer: !observerId ? observerInstance : undefined
+  };
+
+  INSTANCE_MAP.set(element, instance);
+
+  observerInstance.observe(element);
+
+  return instance;
+}
+
+/**
+ * Stop observing an element. If an element is removed from the DOM or otherwise destroyed,
+ * make sure to call this method.
+ * @param element {HTMLElement}
+ */
+function unobserve(element) {
+  if (!element) return;
+
+  if (INSTANCE_MAP.has(element)) {
+    var _INSTANCE_MAP$get = INSTANCE_MAP.get(element),
+        observerId = _INSTANCE_MAP$get.observerId,
+        observer = _INSTANCE_MAP$get.observer;
+
+    var observerInstance = observerId ? OBSERVER_MAP.get(observerId) : observer;
+
+    if (observerInstance) {
+      observerInstance.unobserve(element);
+    }
+
+    // Check if we are stilling observing any elements with the same threshold.
+    var itemsLeft = false;
+    if (observerId) {
+      INSTANCE_MAP.forEach(function (item, key) {
+        if (item && item.observerId === observerId && key !== element) {
+          itemsLeft = true;
+        }
       });
     }
 
-    s /= 2;
+    if (observerInstance && !itemsLeft) {
+      // No more elements to observe for threshold, disconnect observer
+      observerInstance.disconnect();
+      OBSERVER_MAP.delete(observerId);
+    }
 
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'div',
-      null,
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        Triangle,
-        { x: x, y: y - s / 2, s: s },
-        children
-      ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        Triangle,
-        { x: x - s, y: y + s / 2, s: s },
-        children
-      ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        Triangle,
-        { x: x + s, y: y + s / 2, s: s },
-        children
-      )
-    );
+    // Remove reference to element
+    INSTANCE_MAP.delete(element);
   }
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_1_react_easy_state__["a" /* easyComp */])(Triangle));
+/**
+ * Destroy all IntersectionObservers currently connected
+ **/
+function destroy() {
+  OBSERVER_MAP.forEach(function (observer) {
+    observer.disconnect();
+  });
+
+  OBSERVER_MAP.clear();
+  INSTANCE_MAP.clear();
+}
+
+function onChange(changes) {
+  changes.forEach(function (intersection) {
+    if (INSTANCE_MAP.has(intersection.target)) {
+      var isIntersecting = intersection.isIntersecting,
+          intersectionRatio = intersection.intersectionRatio,
+          target = intersection.target;
+
+      var instance = INSTANCE_MAP.get(target);
+      var options = instance.options;
+
+      var inView = void 0;
+
+      if (Array.isArray(options.threshold)) {
+        // If threshold is an array, check if any of them intersects. This just triggers the onChange event multiple times.
+        inView = options.threshold.some(function (threshold) {
+          return instance.visible ? intersectionRatio > threshold : intersectionRatio >= threshold;
+        });
+      } else {
+        // Trigger on 0 ratio only when not visible. This is fallback for browsers without isIntersecting support
+        inView = instance.visible ? intersectionRatio > options.threshold : intersectionRatio >= options.threshold;
+      }
+
+      if (isIntersecting !== undefined) {
+        // If isIntersecting is defined, ensure that the element is actually intersecting.
+        // Otherwise it reports a threshold of 0
+        inView = inView && isIntersecting;
+      }
+
+      // Update the visible value on the instance
+      instance.visible = inView;
+
+      if (instance.callback) {
+        instance.callback(inView);
+      }
+    }
+  });
+}
+
+exports.default = {
+  observe: observe,
+  unobserve: unobserve,
+  destroy: destroy
+};
 
 /***/ }),
-/* 327 */
+/* 315 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_easy_state__ = __webpack_require__(52);
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+/* harmony export (immutable) */ __webpack_exports__["a"] = randomSentence;
+const adjectives = ['pretty', 'large', 'big', 'small', 'tall', 'short', 'long', 'handsome', 'plain', 'quaint', 'clean', 'elegant', 'easy', 'angry', 'crazy', 'helpful', 'mushy', 'odd', 'unsightly', 'adorable', 'important', 'inexpensive', 'cheap', 'expensive', 'fancy'];
+const colours = ['red', 'yellow', 'blue', 'green', 'pink', 'brown', 'purple', 'brown', 'white', 'black', 'orange'];
+const nouns = ['table', 'chair', 'house', 'bbq', 'desk', 'car', 'pony', 'cookie', 'sandwich', 'burger', 'pizza', 'mouse', 'keyboard'];
 
-
-
-
-class Dot extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
-  constructor(...args) {
-    var _temp;
-
-    return _temp = super(...args), this.priority = __WEBPACK_IMPORTED_MODULE_1_react_easy_state__["c" /* priorities */].HIGH, this.store = { hover: false }, _temp;
-  }
-
-  handleMouseEnter() {
-    this.store.hover = true;
-  }
-
-  handleMouseLeave() {
-    this.store.hover = false;
-  }
-
-  render() {
-    const { x, y, size, text } = this.props;
-    const { hover } = this.store;
-
-    const s = size * 1.3;
-
-    const base = {
-      position: `absolute`,
-      background: `#61dafb`,
-      font: `normal 15px sans-serif`,
-      textAlign: `center`,
-      cursor: `pointer`
-    };
-
-    const style = _extends({}, base, {
-      width: `${s}px`,
-      height: `${s}px`,
-      left: `${x}px`,
-      top: `${y}px`,
-      borderRadius: `${s / 2}px`,
-      lineHeight: `${s}px`,
-      background: hover ? `#ff0` : base.background
-    });
-
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'div',
-      {
-        style: style,
-        onMouseEnter: this.handleMouseEnter,
-        onMouseLeave: this.handleMouseLeave
-      },
-      hover ? `*${text}*` : text
-    );
-  }
+function randomSentence() {
+  return `${adjectives[random(adjectives.length)]} ${colours[random(colours.length)]} ${nouns[random(nouns.length)]}`;
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_1_react_easy_state__["a" /* easyComp */])(Dot));
+function random(max) {
+  return Math.round(Math.random() * 1000) % max;
+}
 
 /***/ })
 /******/ ]);
