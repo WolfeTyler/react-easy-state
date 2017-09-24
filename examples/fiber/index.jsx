@@ -6,7 +6,10 @@ const start = Date.now()
 
 function update () {
   ReactDOM.render(<App elapsed={Date.now() - start} />, document.getElementById('react-root'))
+
+  // eslint-disable-next-line
   requestAnimationFrame(update)
 }
 
+// eslint-disable-next-line
 requestAnimationFrame(update)

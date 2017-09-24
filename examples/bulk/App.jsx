@@ -4,7 +4,7 @@ import Row from './Row'
 import store from './store'
 
 function App () {
-  const { rows, selected, run, runLots, add, update, clear, swapRows } = store
+  const { rows, run, runLots, add, update, clear, swapRows } = store
 
   return (
     <div className='container'>

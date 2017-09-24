@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { easyComp, priorities } from 'react-easy-state'
+import { easyComp } from 'react-easy-state'
 import Triangle from './Triangle'
 
 class App extends Component {

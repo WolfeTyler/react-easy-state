@@ -38,6 +38,7 @@ const colours = [
   'black',
   'orange'
 ]
+
 const nouns = [
   'table',
   'chair',
@@ -55,9 +56,10 @@ const nouns = [
 ]
 
 export default function randomSentence () {
-  return `${adjectives[random(adjectives.length)]} ${colours[
-    random(colours.length)
-  ]} ${nouns[random(nouns.length)]}`
+  const adjective = adjectives[random(adjectives.length)]
+  const colour = colours[random(colours.length)]
+  const noun = nouns[random(nouns.length)]
+  return `${adjective} ${colour} ${noun}`
 }
 
 function random (max) {
